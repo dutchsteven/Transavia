@@ -39,13 +39,4 @@ public class Navigation(IWebDriver driver, WebDriverWait wait)
         var button = wait.Until(ExpectedConditions.ElementToBeClickable(JobAlertButton));
         button.Click();
     }
-
-    /// <summary>
-    /// Verifies that a new browser tab has opened and switches the WebDriver context to the newly opened tab.
-    /// </summary>
-    public void VerifyNewTabOpens()
-    {
-        wait.Until(drv => drv.WindowHandles.Count > 1);
-        driver.SwitchTo().Window(driver.WindowHandles.Last());
-    }
 }

@@ -15,6 +15,13 @@ public class JobAlertPage(WebDriverWait wait)
     private static By Span(string span) => By.XPath($"//span[normalize-space() = '{span}']");
     
     // Actions
+
+    /// <summary>
+    /// Determines whether the Job Alert popup is visible on the page.
+    /// </summary>
+    /// <returns>
+    /// True if the Job Alert popup is visible; otherwise, false.
+    /// </returns>
     public bool IsJobAlertPopupVisible()
     {
         try
@@ -28,6 +35,10 @@ public class JobAlertPage(WebDriverWait wait)
         }
     }
 
+    /// <summary>
+    /// Enters the specified email address into the email input field on the Job Alert page.
+    /// </summary>
+    /// <param name="email">The email address to be entered.</param>
     public void EnterEmail(string email)
     {
         var emailField = wait.Until(ExpectedConditions.ElementToBeClickable(EmailInput));
@@ -35,13 +46,21 @@ public class JobAlertPage(WebDriverWait wait)
         emailField.SendKeys(email);
     }
 
+    /// <summary>
+    /// Selects a department from the dropdown by the specified department name.
+    /// </summary>
+    /// <param name="department">The name of the department to be selected.</param>
     public void SelectDepartment(string department)
     {
         var select = wait.Until(ExpectedConditions.ElementToBeClickable(DepartmentSelect(department)));
         select.Click();   
     }
-    
 
+    /// <summary>
+    /// Selects an option specified by a label within a fieldset with a given legend.
+    /// </summary>
+    /// <param name="legend">The legend text of the fieldset containing the label.</param>
+    /// <param name="value">The label text of the option to be selected.</param>
     public void SelectByLabel(string legend, string value)
     {
         var fieldset = wait.Until(ExpectedConditions.ElementIsVisible(Fieldset(legend)));
@@ -49,6 +68,11 @@ public class JobAlertPage(WebDriverWait wait)
         label.Click();   
     }
 
+    /// <summary>
+    /// Toggles a checkbox identified by its label text to the specified value.
+    /// </summary>
+    /// <param name="text">The label text associated with the checkbox.</param>
+    /// <param name="value">The desired state of the checkbox (true for checked, false for unchecked).</param>
     public void CheckboxByText(string text, bool value)
     {
         var checkbox = wait.Until(ExpectedConditions.ElementToBeClickable(Span(text)));

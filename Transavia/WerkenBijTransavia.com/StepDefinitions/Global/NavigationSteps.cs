@@ -7,7 +7,7 @@ using Transavia.WerkenBijTransavia.com.Pages.Global;
 namespace Transavia.WerkenBijTransavia.com.StepDefinitions.Global;
 
 [Binding]
-public class NavigationSteps(Navigation navigation)
+public class NavigationSteps(Navigation navigation, PageBase pageBase)
 {
     [Given(@"I navigate to '(.*)'")]
     public void GivenINavigateTo(string navigation1)
@@ -22,7 +22,7 @@ public class NavigationSteps(Navigation navigation)
     public void GivenIClickJobalert()
     {
         navigation.ClickJobAlert();
-        navigation.VerifyNewTabOpens();
+        pageBase.VerifyNewTabOpens();
     }
     
     [When(@"I click Jobalert")]
@@ -34,7 +34,7 @@ public class NavigationSteps(Navigation navigation)
     [Then("a new tab opens")]
     public void ThenANewTabOpens()
     {
-        navigation.VerifyNewTabOpens();
+        pageBase.VerifyNewTabOpens();
     }
 
 }
