@@ -3,6 +3,7 @@
   <RunConfiguration>
     <EnvironmentVariables>
       <env>acc</env>
+      <prefix>acc</prefix>
       <browser>firefox</browser>
       <headless>false</headless>
     </EnvironmentVariables>

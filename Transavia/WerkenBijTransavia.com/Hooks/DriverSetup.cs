@@ -5,6 +5,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Reqnroll;
 using Reqnroll.BoDi;
+using Transavia.Library.Helpers;
 
 namespace Transavia.WerkenBijTransavia.com.Hooks;
 
@@ -75,7 +76,7 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
     
     private static IWebDriver SelectBrowser()
     {
-        var browser = Environment.GetEnvironmentVariable("browser")?.ToLower() ?? "chrome";
+        var browser = EnvironmentHelper.GetVariable("browser");
         return browser switch
         {
             "firefox" => CreateFirefoxDriver(),
@@ -87,21 +88,15 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
     private static IWebDriver CreateChromeDriver()
     {
         var options = new ChromeOptions();
-        if (IsHeadless()) options.AddArguments("--headless");
+        if (EnvironmentHelper.IsHeadless()) options.AddArguments("--headless");
         return new ChromeDriver(options);
     }    
 
     private static IWebDriver CreateFirefoxDriver()
     {
         var options = new FirefoxOptions();
-        if (IsHeadless()) options.AddArguments("--headless");
+        if (EnvironmentHelper.IsHeadless()) options.AddArguments("--headless");
         return new FirefoxDriver(options);
-    }
-
-    private static bool IsHeadless()
-    {
-        return !bool.TryParse(Environment.GetEnvironmentVariable("headless"), out var headless) ? 
-            throw new Exception("Please configure the 'headless' environment variable to 'true' or 'false'.") : headless;
     }
 
     private static Size GetRandomScreenSize()

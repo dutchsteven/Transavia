@@ -1,6 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using Transavia.Library.Helpers;
 
 namespace Transavia.WerkenBijTransavia.com.Pages.Global.Elements;
 
@@ -45,7 +46,6 @@ public class Button(WebDriverWait wait)
     public void Submit()
     {
         var btn = wait.Until(ExpectedConditions.ElementToBeClickable(SubmitButton));
-        // btn.Click();
-        // ToDo: Click should get enabled when implemented on non-PRD environment
+        if (!EnvironmentHelper.IsProduction()) btn.Click();
     }
 }

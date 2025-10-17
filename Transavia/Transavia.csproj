@@ -38,10 +38,6 @@
     <ItemGroup>
       <UpToDateCheckBuild Remove="Features\WerkenBijTransavia\JobAlert.feature.cs" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="WerkenBijTransavia.com\Helpers\" />
-    </ItemGroup>
     
     <ItemGroup>
         <RunSettingsFile Include="Library\Runsettings\*.runsettings" />

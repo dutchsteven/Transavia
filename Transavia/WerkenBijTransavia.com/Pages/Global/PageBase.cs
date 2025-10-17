@@ -35,6 +35,7 @@ public class PageBase(IWebDriver driver, WebDriverWait wait, ScenarioContext sce
         {
             var cookieButton = wait.Until(ExpectedConditions.ElementToBeClickable(CookieBtn));
             cookieButton.Click();
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(CookieBtn));
         }
         catch (WebDriverTimeoutException)
         {
