@@ -4,7 +4,7 @@ using SeleniumExtras.WaitHelpers;
 
 namespace Transavia.WerkenBijTransavia.com.Pages.Global;
 
-public class Navigation(IWebDriver driver, WebDriverWait wait)
+public class Navigation(WebDriverWait wait)
 {
     // Locators
     private static By MenuButton(string menuName) => By.XPath($"//button[normalize-space() = '{menuName}'] | //a[normalize-space() = '{menuName}']");

@@ -4,6 +4,7 @@
     <EnvironmentVariables>
       <env>www</env>
       <browser>firefox</browser>
+      <headless>false</headless>
     </EnvironmentVariables>
   </RunConfiguration>
 </RunSettings>

@@ -6,7 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <Domain>.werkenbijtransavia.com</Domain>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,5 +26,6 @@
 
     <ItemGroup>
         <Content Include="**/*.feature"/>
-    </ItemGroup>
+    </ItemGroup>≈
+
 </Project>

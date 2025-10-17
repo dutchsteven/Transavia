@@ -1,3 +1,4 @@
+using System.Drawing;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
@@ -18,7 +19,7 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
     {
         _driver = SelectBrowser();
 
-        //_driver.Manage().Window.Maximize();
+        _driver.Manage().Window.Size = GetRandomScreenSize();
         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
@@ -31,7 +32,7 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
     [AfterScenario]
     public void CloseBrowser()
     {
-        // Take screenshot if scenario failed
+        // Take a screenshot if a scenario failed
         if (scenarioContext.TestError != null && _driver != null)
         {
             TakeScreenshot();
@@ -47,7 +48,7 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
         {
             var screenshot = ((ITakesScreenshot)_driver!).GetScreenshot();
             
-            // Create screenshots directory if it doesn't exist
+            // Creates a screenshots directory if it doesn't exist
             var screenshotDir = Path.Combine(Directory.GetCurrentDirectory(), "Screenshots");
             Directory.CreateDirectory(screenshotDir);
             
@@ -60,7 +61,7 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
             // Save screenshot
             screenshot.SaveAsFile(filePath);
             
-            // Attach screenshot to test report (for SpecFlow+ LivingDoc or other reporters)
+            // Attach the screenshot to the test report
             var screenshotBytes = screenshot.AsByteArray;
             scenarioContext.Add("Screenshot", screenshotBytes);
             
@@ -86,14 +87,41 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
     private static IWebDriver CreateChromeDriver()
     {
         var options = new ChromeOptions();
-        //options.AddArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        if (IsHeadless()) options.AddArguments("--headless");
         return new ChromeDriver(options);
     }    
 
     private static IWebDriver CreateFirefoxDriver()
     {
         var options = new FirefoxOptions();
-        options.AddArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+        if (IsHeadless()) options.AddArguments("--headless");
         return new FirefoxDriver(options);
-    }    
+    }
+
+    private static bool IsHeadless()
+    {
+        return !bool.TryParse(Environment.GetEnvironmentVariable("headless"), out var headless) ? 
+            throw new Exception("Please configure the 'headless' environment variable to 'true' or 'false'.") : headless;
+    }
+
+    private static Size GetRandomScreenSize()
+    {
+        var random = new Random();
+
+        Size[] sizes = 
+        [
+            new Size(375, 667),    // iPhone SE (mobile small)
+            new Size(390, 844),    // iPhone 12/13/14 (mobile medium)
+            new Size(428, 926),    // iPhone Pro Max (mobile large)
+            new Size(768, 1024),   // iPad (tablet)
+            new Size(1024, 1366),  // iPad Pro (tablet large)
+            new Size(1366, 768),   // Standard laptop
+            new Size(1920, 1080),  // Full HD desktop
+            new Size(2560, 1440),  // 2K desktop
+            new Size(3440, 1440),  // Ultrawide monitor
+            new Size(3840, 2160)   // 4K desktop
+        ];
+
+        return sizes[random.Next(0, sizes.Length)];
+    }
 }

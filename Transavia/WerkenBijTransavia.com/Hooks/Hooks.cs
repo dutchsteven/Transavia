@@ -10,6 +10,6 @@ public class Hooks(PageBase landingPage)
     [BeforeScenario]
     public void GoToBaseUrl()
     {
-        landingPage.NavigateTo(Websites.WerkenBijTransavia_com.BaseUrl());
+        landingPage.NavigateTo(Websites.WerkenBijTransaviaCom.BaseUrl());
     }
 }

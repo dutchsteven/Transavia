@@ -2,7 +2,7 @@ namespace Transavia.Library;
 
 public static class Websites
 {
-    public static class WerkenBijTransavia_com
+    public static class WerkenBijTransaviaCom
     {
         private static readonly string Environment = System.Environment.GetEnvironmentVariable("env") ?? "www";
         

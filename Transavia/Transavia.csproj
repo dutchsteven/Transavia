@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RunSettingsFilePath>$(MSBuildProjectDirectory)\Library\Runsettings\prd.runsettings</RunSettingsFilePath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="**/*.feature"/>
+        <Content Include="**/**/*.feature"/>
         <Content Include="WerkenBijTransavia.com\WerkenBijTransavia.com.csproj" />
     </ItemGroup>
 
@@ -40,6 +41,10 @@
 
     <ItemGroup>
       <Folder Include="WerkenBijTransavia.com\Helpers\" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <RunSettingsFile Include="Library\Runsettings\*.runsettings" />
     </ItemGroup>
 
 </Project>
