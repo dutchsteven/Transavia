@@ -24,8 +24,8 @@ public class DriverSetup(IObjectContainer objectContainer, ScenarioContext scena
 
         _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
 
-        // Register instances with DI container
-        objectContainer.RegisterInstanceAs<IWebDriver>(_driver);
+        // Register instances with a DI container
+        objectContainer.RegisterInstanceAs(_driver);
         objectContainer.RegisterInstanceAs(_wait);
     }
 

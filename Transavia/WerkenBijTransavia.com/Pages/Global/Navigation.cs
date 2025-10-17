@@ -4,11 +4,12 @@ using SeleniumExtras.WaitHelpers;
 
 namespace Transavia.WerkenBijTransavia.com.Pages.Global;
 
-public class Navigation(WebDriverWait wait)
+public class Navigation(IWebDriver driver, WebDriverWait wait)
 {
     // Locators
+    private static By MenuHamburger => By.XPath("//div[@data-testid='navigation-layout-hamburger']");
     private static By MenuButton(string menuName) => By.XPath($"//button[normalize-space() = '{menuName}'] | //a[normalize-space() = '{menuName}']");
-    private static By MenuItem(string itemName) => By.XPath($"//a[normalize-space() = '{itemName}']");
+    private static By MenuItem(string itemName) => By.XPath($"//a[@data-valuetext='{itemName}']");
     private static By JobAlertButton => By.CssSelector("a.whatsapp-button");
 
     // Actions
@@ -21,14 +22,25 @@ public class Navigation(WebDriverWait wait)
     public void HeaderMenu(string txtButton, string txtItem)
     {
         if (string.IsNullOrWhiteSpace(txtButton)) throw new ArgumentException("Menu button cannot be null or empty.");
-        
-        var menuBtn = wait.Until(ExpectedConditions.ElementToBeClickable(MenuButton(txtButton.Trim())));
-        menuBtn.Click();
 
-        if (string.IsNullOrWhiteSpace(txtItem)) return;
-        
-        var item = wait.Until(ExpectedConditions.ElementToBeClickable(MenuItem(txtItem.Trim())));
-        item.Click();
+        if (UseHamburgerMenu())
+        {
+            var menuBurger = wait.Until(ExpectedConditions.ElementToBeClickable(MenuHamburger));
+            menuBurger.Click();
+            
+            if (string.IsNullOrWhiteSpace(txtItem)) return;
+            Thread.Sleep(50); // Wait for the menu to open (wait.Until() has difficulties deciding menuitem to be clickable)
+            driver.FindElement(by: MenuHamburger).Click();
+        }
+        else
+        {
+            var menuBtn = wait.Until(ExpectedConditions.ElementToBeClickable(MenuButton(txtButton.Trim())));
+            menuBtn.Click();
+            
+            if (string.IsNullOrWhiteSpace(txtItem)) return;
+            var menuItem = wait.Until(ExpectedConditions.ElementToBeClickable(MenuItem(txtItem.Trim())));
+            menuItem.Click();
+        }
     }
 
     /// <summary>
@@ -38,5 +50,24 @@ public class Navigation(WebDriverWait wait)
     {
         var button = wait.Until(ExpectedConditions.ElementToBeClickable(JobAlertButton));
         button.Click();
+    }
+
+    /// <summary>
+    /// Determines whether the website's hamburger menu should be used for navigation, based on its visibility.
+    /// </summary>
+    /// <returns>
+    /// Returns true if the hamburger menu is visible and can be used; otherwise, false.
+    /// </returns>
+    private bool UseHamburgerMenu()
+    {
+        try
+        {
+            var shortWait = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            return shortWait.Until(ExpectedConditions.ElementIsVisible(MenuHamburger)) != null;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

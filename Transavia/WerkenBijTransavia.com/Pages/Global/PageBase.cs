@@ -1,11 +1,16 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Reqnroll;
+using SeleniumExtras.WaitHelpers;
 
 namespace Transavia.WerkenBijTransavia.com.Pages.Global;
 
 public class PageBase(IWebDriver driver, WebDriverWait wait, ScenarioContext scenarioContext)
 {
+    // Locators
+    private static By CookieBtn => By.CssSelector("[data-testid='agree-to-all-cookies']");
+    
+    
     /// <summary>
     /// Navigates to the specified URL in the browser.
     /// </summary>
@@ -28,8 +33,7 @@ public class PageBase(IWebDriver driver, WebDriverWait wait, ScenarioContext sce
     {
         try
         {
-            var cookieButton = wait.Until(driver => 
-                driver.FindElement(By.CssSelector("[data-testid='agree-to-all-cookies']")));
+            var cookieButton = wait.Until(ExpectedConditions.ElementToBeClickable(CookieBtn));
             cookieButton.Click();
         }
         catch (WebDriverTimeoutException)

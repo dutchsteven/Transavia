@@ -3,7 +3,7 @@
   <RunConfiguration>
     <EnvironmentVariables>
       <env>test</env>
-      <browser>chrome</browser>
+      <browser>firefox</browser>
       <headless>true</headless>
     </EnvironmentVariables>
   </RunConfiguration>
